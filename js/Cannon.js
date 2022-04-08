@@ -12,11 +12,11 @@ class Cannon {
 
     display()
     {
-        if (keyIsDown(RIGHT_ARROW) && this.angle < 70) {
+        if (keyIsDown(DOWN_ARROW) && this.angle < 70) {
             this.angle += 1;
         }
 
-        if (keyIsDown(LEFT_ARROW) && this.angle > -30) {
+        if (keyIsDown(UP_ARROW) && this.angle > -30) {
             this.angle -= 1;
         }
 
@@ -27,6 +27,7 @@ class Cannon {
         image(this.cannonTopImg, 0, 0, this.width, this.height);
         pop();
         image(this.cannonBaseImg, 70, 20, 200, 200);
+        // noFill();
     }
     
 }

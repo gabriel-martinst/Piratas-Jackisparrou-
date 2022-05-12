@@ -21,4 +21,10 @@ class Boat {
     image(this.image, 0, this.boatPos, this.width, this.height);
     pop();
    }
+
+   remove(index){
+    Body.setVelocity(this.body, {x: 0, y: 0});
+    setTimeout()
+
+   }
 }

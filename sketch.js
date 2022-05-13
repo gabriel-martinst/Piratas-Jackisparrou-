@@ -11,10 +11,14 @@ var backgroundImg, towerImg, tower;
 var cannon, angle, cannonBall;
 var boats = [];
 var balls = [];
+var boatAnimation = [];
+var boatSpritedata, boatSpritesheet;
 
 function preload() {
   backgroundImg = loadImage("./assets/background.gif");
   towerImg = loadImage("./assets/tower.png");
+  boatSpritedata = loadJSON("./assets/boat/boat.json");
+  boatSpritesheet = loadImage("./assets/boat/boat.png");
 }
 
 function setup() {
@@ -37,7 +41,15 @@ function setup() {
   World.add(world, tower);
   // criaï¿½ï¿½o do objeto
   cannon = new Cannon(180, 110, 130, 100, angle);
-  boat = new Boat (width - 79, height - 60, 170, 170, -80)
+  
+  var boatFrames = boatSpritedata.frames;
+  for (var i = 0; i < boatFrames.length; i++) {
+    var pos = boatFrames[i].position;
+    var img = boatSpritesheet.get(pos.x, pos.y, pos.w, pos.h);
+    boatAnimation.push(img);
+  }
+
+  boat = new Boat(width - 79, height - 60, 170, 170, -80, boatAnimation);
 }
 
 function draw() {
@@ -84,30 +96,28 @@ function showCannonBalls(ball, i)
 
 function showBoats() 
 {
-  // se jï¿½ tiverem outros navios irï¿½ criar outros
+  // se já tiverem outros navios irá criar outros
   if (boats.length > 0) {
     
     if(boats[boats.length - 1] === undefined||
       boats[boats.length - 1].body.position.x < width - 300) {
-      var positions = [- 40, - 60, -70, -20]
-      var position = random(positions)
-      var boat = new Boat(width, height - 60, 170, 170, position) 
-      boats.push(boat)
+      var positions = [- 40, - 60, -70, -20];
+      var position = random(positions);
+      var boat = new Boat(width, height - 60, 170, 170, position, boatAnimation) ;
+      boats.push(boat);
     }
 
     for (let i = 0; i < boats.length; i++) {
       if(boats[i]) {
-        Matter.Body.setVelocity(boats[i].body, {x: -0.9, y:0})
-        boats[i].display()
+        Matter.Body.setVelocity(boats[i].body, {x: -0.9, y:0});
+        boats[i].display();
+        boats[i].animate();
       }
     }
 
   } else {
     // se ainda nï¿½o tiverem navios vai criar o primeiro navio
-    var boat = new Boat (width, height - 60, 170, 170, -80);
+    var boat = new Boat (width, height - 60, 170, 170, -80, boatAnimation);
     boats.push(boat);
   }
-}
-
-
 }

@@ -13,12 +13,15 @@ var boats = [];
 var balls = [];
 var boatAnimation = [];
 var boatSpritedata, boatSpritesheet;
+var brokenBoatAnimation = [], brokenBoatSpriteData, brokenBoatSpriteSheet;
 
 function preload() {
   backgroundImg = loadImage("./assets/background.gif");
   towerImg = loadImage("./assets/tower.png");
   boatSpritedata = loadJSON("./assets/boat/boat.json");
   boatSpritesheet = loadImage("./assets/boat/boat.png");
+  brokenBoatSpriteData = loadJSON("./assets/boat/brokenBoat.json");
+  brokenBoatSpriteSheet = loadImage("./assets/boat/brokenBoat.png");
 }
 
 function setup() {
@@ -39,7 +42,7 @@ function setup() {
  
   tower = Bodies.rectangle(160, 350, 160, 310, options);
   World.add(world, tower);
-  // criaï¿½ï¿½o do objeto
+  // criação do objeto
   cannon = new Cannon(180, 110, 130, 100, angle);
   
   var boatFrames = boatSpritedata.frames;
@@ -50,6 +53,13 @@ function setup() {
   }
 
   boat = new Boat(width - 79, height - 60, 170, 170, -80, boatAnimation);
+
+  var brokenBoatFrames = brokenBoatSpritedata.frames;
+  for (var i = 0; i < brokenBoatFrames.length; i++) {
+    var pos = brokenBoatFrames[i].position;
+    var img = brokenBoatSpriteSheet.get(pos.x, pos.y, pos.w, pos.h);
+    brokenBoatAnimation.push(img);
+  }
 }
 
 function draw() {

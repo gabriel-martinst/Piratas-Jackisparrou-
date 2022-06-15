@@ -33,4 +33,12 @@ class CannonBall {
       image(this.image, pos.x, pos.y, this.radius, this.radius);
       pop();
     }
+
+    remove(i)
+    {
+      setTimeout(() => { 
+        Matter.World.remove(world, this.body)
+        delete balls[i]
+    }, 100)
+    }
 }

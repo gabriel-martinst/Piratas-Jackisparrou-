@@ -1,19 +1,20 @@
 class Boat {
    constructor(x, y, width, height, boatPos, boatAnimation){
-    var options = {
+  //  var options = {
         // isStatic: false,
-        restitution: 0.8, // elasticidade
-        friction: 1.0, // atrito do ar
-        density: 1.0, // densidade
-        label: "boat"
-    }
+  //      restitution: 0.8, // elasticidade
+  //      friction: 1.0, // atrito do ar
+    //    density: 1.0, // densidade
+   //     label: "boat"
+  //  }
     this.animation = boatAnimation;
     this.speed = 0.05;
     this.width = width;
     this.height = height;
     this.boatPos = boatPos;
     this.image = loadImage("./assets/boat.png");
-    this.body = Bodies.rectangle(x, y, width, height, options);
+    this.body = Bodies.rectangle(x, y, width, height);
+    this.isBroken = false;
     World.add(world, this.body);
    } 
 
@@ -34,6 +35,19 @@ class Boat {
 
    animate()
    {
-       this.speed = this.speed + 0.05;
+    this.speed = this.speed + 0.05;
+   }
+
+   remove(index)
+   {
+    this.animation = brokenBoatAnimation;
+    this.speed = 0.05;
+    this.width = 300;
+    this.height = 300;
+    this.isBroken = true;
+    setTimeout(() => {
+        World.remove(world, boats[index].body);
+        delete boats[index];
+    }, 200);
    }
 }

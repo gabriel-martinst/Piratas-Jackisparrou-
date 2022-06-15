@@ -2,10 +2,13 @@
 const Engine = Matter.Engine;
 const World = Matter.World;
 // objeto
+
+
 const Bodies = Matter.Bodies;
 const Constraint = Matter.Constraint;
 const Body = Matter.Body;
 
+var isGamerOver = false
 var engine, world,ground;
 var backgroundImg, towerImg, tower;
 var cannon, angle, cannonBall;
@@ -54,7 +57,7 @@ function setup() {
 
   boat = new Boat(width - 79, height - 60, 170, 170, -80, boatAnimation);
 
-  var brokenBoatFrames = brokenBoatSpritedata.frames;
+  var brokenBoatFrames = brokenBoatSpriteData.frames;
   for (var i = 0; i < brokenBoatFrames.length; i++) {
     var pos = brokenBoatFrames[i].position;
     var img = brokenBoatSpriteSheet.get(pos.x, pos.y, pos.w, pos.h);
@@ -81,6 +84,17 @@ function draw() {
   showBoats();  
   for (let i = 0; i < balls.length; i++) {
     showCannonBalls(balls[i], i);
+    for (var j = 0; j < boats.length; j++){
+      if (balls[i] !== undefined && boats[j] !== undefined){
+        var collision = Matter.SAT.collides(balls[i].body, boats[j].body);
+        if(collision.collided){
+          boats[j].remove(j);
+          World.remove(world, balls[i].body);
+          balls.splice(i,1);
+          i--;
+        }
+      }
+    } 
   }
 }
 
@@ -101,7 +115,12 @@ function showCannonBalls(ball, i)
   {
     if(ball) {
       ball.display();
+      if (ball.body.position.x >= width || ball.body.position.y >= height -50){
+        ball.remove(i)
+      }
     }
+
+    
   }
 
 function showBoats() 
@@ -122,6 +141,11 @@ function showBoats()
         Matter.Body.setVelocity(boats[i].body, {x: -0.9, y:0});
         boats[i].display();
         boats[i].animate();
+        var collision = Matter.SAT.collides(this.tower, boats[i].body)
+        if (collision.collided && !boats[i].isBroken){
+          isGamerOver = true;
+          GamerOver()
+        }
       }
     }
 
@@ -130,4 +154,23 @@ function showBoats()
     var boat = new Boat (width, height - 60, 170, 170, -80, boatAnimation);
     boats.push(boat);
   }
+}
+function GamerOver()
+{  
+  swal(
+  {
+    title: `Fim de Jogo!!!`,
+    text: "Obrigada por jogar!!",
+    imageUrl:
+      "https://raw.githubusercontent.com/whitehatjr/PiratesInvasion/main/assets/boat.png",
+    imageSize: "150x150",
+    confirmButtonText: "Jogar Novamente"
+  },
+  function(isConfirm) {
+    if (isConfirm) {
+      location.reload();
+    }
+  }
+);
+  
 }

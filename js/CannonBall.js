@@ -1,5 +1,5 @@
 class CannonBall {
-    // M�todo = Fun��o = function
+    // Metodo = Funcao = function
     constructor(x, y)
     {
         // objeto
@@ -8,9 +8,12 @@ class CannonBall {
         }
 
         this.radius = 30;
+        this.speed = 0.05;
         this.body = Bodies.circle(x, y, this.radius, options);
         this.image = loadImage("./assets/cannonball.png");
         World.add(world, this.body);
+        this.animation = [this.image];
+        this.isSink = false;
     }
     
     shoot()
@@ -27,18 +30,26 @@ class CannonBall {
 
     display() 
     {
+      var angle = this.body.angle;
       var pos = this.body.position;
+      var index = floor(this.speed % this.animation.length);
+
       push();
+      translate(pos.x, pos.y);
+      rotate(angle);
       imageMode(CENTER);
-      image(this.image, pos.x, pos.y, this.radius, this.radius);
+      image(this.animation[index], 0, 0, this.radius, this.radius);
       pop();
     }
 
     remove(i)
     {
+
+      
+
       setTimeout(() => { 
         Matter.World.remove(world, this.body)
         delete balls[i]
-    }, 100)
+    }, 300)
     }
 }

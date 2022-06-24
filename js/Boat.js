@@ -1,12 +1,6 @@
 class Boat {
    constructor(x, y, width, height, boatPos, boatAnimation){
-  //  var options = {
-        // isStatic: false,
-  //      restitution: 0.8, // elasticidade
-  //      friction: 1.0, // atrito do ar
-    //    density: 1.0, // densidade
-   //     label: "boat"
-  //  }
+    
     this.animation = boatAnimation;
     this.speed = 0.05;
     this.width = width;
@@ -23,8 +17,6 @@ class Boat {
     var angle = this.body.angle;
     var index = floor(this.speed % this.animation.length);
 
-    console.log(index);
-    
     push();
     translate(pos.x, pos.y);
     rotate(angle);

@@ -139,7 +139,8 @@ function showCannonBalls(ball, i)
   if(ball) {
     ball.display();
     if (ball.body.position.x >= width || ball.body.position.y >= height -50){
-      ball.remove(i)
+      waterSound.play();
+      ball.remove(i);
     }
   }
 }
@@ -189,7 +190,7 @@ function showBoats()
 
         var collision = Matter.SAT.collides(this.tower, boats[i].body);
 
-        if (collision.collided && !boats[i].isBroken){
+        if (collision.collided){
           isGamerOver = true;
           gameOver();
         }

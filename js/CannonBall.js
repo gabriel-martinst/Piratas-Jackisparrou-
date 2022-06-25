@@ -44,9 +44,11 @@ class CannonBall {
 
     remove(i)
     {
-
+      this.isSink = true;
+      Body.setVelocity(this.body, {x: 0, y: 0});
+      this.animation = waterSplashAnimation;
+      this.radius = 150;
       
-
       setTimeout(() => { 
         Matter.World.remove(world, this.body)
         delete balls[i]
